@@ -134,7 +134,9 @@ end
 
 local function w2s(pos)
     local p, vis = Camera:WorldToViewportPoint(pos)
-    return Vector2.new(p.X, p.Y), vis, p.Z
+    -- vis can be false for off-centre parts that are still in front of camera;
+    -- use depth (p.Z > 0) as the real "in front" check
+    return Vector2.new(p.X, p.Y), p.Z > 0, p.Z
 end
 
 local function getBox(char, hrp)
